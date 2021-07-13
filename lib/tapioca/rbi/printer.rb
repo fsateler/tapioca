@@ -239,6 +239,24 @@ module Tapioca
       end
     end
 
+    class Struct
+      extend T::Sig
+
+      sig { override.params(v: Printer).void }
+      def print_header(v)
+        parameters = members.map { |member| ":#{member}" }
+        parameters << "keyword_init: true" if keyword_init
+        parameters = parameters.join(", ")
+
+        v.printt("#{name} = ::Struct.new(#{parameters})")
+        if empty?
+          v.printn
+        else
+          v.printn(" do")
+        end
+      end
+    end
+
     class SingletonClass
       extend T::Sig
 

@@ -23,6 +23,9 @@ module Tapioca
           cls1 << singleton_class
           assert_equal("::Foo::Bar::<self>", singleton_class.fully_qualified_name)
 
+          struct = RBI::Struct.new("Foo")
+          assert_equal("::Foo", struct.fully_qualified_name)
+
           const = RBI::Const.new("Foo", "42")
           assert_equal("::Foo", const.fully_qualified_name)
 
@@ -96,6 +99,9 @@ module Tapioca
           singleton_class = RBI::SingletonClass.new
           cls << singleton_class
           assert_equal("::Foo::Bar::<self>", singleton_class.to_s)
+
+          struct = RBI::Struct.new("Foo", members: ["foo", "bar"], keyword_init: true)
+          assert_equal("::Foo", struct.to_s)
 
           const = RBI::Const.new("Foo", "42")
           assert_equal("::Foo", const.to_s)
